@@ -33,62 +33,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Contact Form Submission Handling
+    // Contact Form Submission Handling - UPDATED FOR FORMSPREE
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
+        // When using Formspree via the HTML 'action' attribute,
+        // you typically don't need to prevent default or handle submission here in JS.
+        // Formspree handles the entire process directly.
+        // We can remove or comment out the event listener if Formspree is used this way.
+
+        // If you still wanted to do something *after* Formspree processes,
+        // you'd listen for Formspree's 'submit' event or a success redirect.
+        // For simplicity with direct action, this listener can be removed.
+        // However, keeping it commented out for clarity.
+
+        /*
         contactForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevent default form submission
+            // e.preventDefault(); // Commented out to allow Formspree's default submission
 
-            const name = contactForm.querySelector('#name').value;
-            const email = contactForm.querySelector('#email').value;
-            const company = contactForm.querySelector('#company').value;
-            const phone = contactForm.querySelector('#phone_contact').value; // Corrected ID
-            const message = contactForm.querySelector('#message').value;
+            // These console.logs and alerts are no longer needed
+            // as Formspree will handle sending the data and
+            // typically redirects or shows its own success message.
 
-            // In a real-world scenario, you would send this data to a backend server.
-            // Example of how you might send it using Fetch API (requires a server-side endpoint)
-            /*
-            fetch('/send-email.php', { // Replace with your backend endpoint
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    company,
-                    phone,
-                    message,
-                    subject: 'New Consultation Request - G&M Solutions Website'
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Thank you for your consultation request! We will contact you shortly.');
-                    contactForm.reset(); // Clear the form
-                } else {
-                    alert('There was an error sending your message. Please try again or contact us directly.');
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('There was a technical issue. Please try again later.');
-            });
-            */
+            // const name = contactForm.querySelector('#name').value;
+            // const email = contactForm.querySelector('#email').value;
+            // const company = contactForm.querySelector('#company').value;
+            // const phone = contactForm.querySelector('#phone_contact').value;
+            // const message = contactForm.querySelector('#message').value;
 
-            // For local testing without a backend, log to console and show alert:
-            console.log('Consultation Request Submitted:');
-            console.log(`Name: ${name}`);
-            console.log(`Email: ${email}`);
-            console.log(`Company: ${company}`);
-            console.log(`Phone (Optional): ${phone}`);
-            console.log(`Needs: ${message}`);
-            console.log(`--- Please configure a backend to send this email ---`);
+            // console.log('Consultation Request Submitted (via Formspree):');
+            // console.log(`Name: ${name}`);
+            // console.log(`Email: ${email}`);
+            // console.log(`Company: ${company}`);
+            // console.log(`Phone (Optional): ${phone}`);
+            // console.log(`Needs: ${message}`);
 
-            alert('Thank you for your consultation request! We will contact you shortly to schedule your personalized AI strategy session.');
-            contactForm.reset(); // Clear the form
+            // alert('Thank you for your consultation request! We will contact you shortly to schedule your personalized AI strategy session.');
+            // contactForm.reset(); // Formspree usually handles reset or redirect
         });
+        */
     }
 });
 
@@ -106,5 +88,3 @@ styleSheet.innerText = `
         transform: translateX(0px);
     }
 }
-`;
-document.head.appendChild(styleSheet);
