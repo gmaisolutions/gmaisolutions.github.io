@@ -33,44 +33,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Contact Form Submission Handling - UPDATED FOR FORMSPREE
+    // Contact Form Submission Handling for Formspree
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
-        // When using Formspree via the HTML 'action' attribute,
-        // you typically don't need to prevent default or handle submission here in JS.
-        // Formspree handles the entire process directly.
-        // We can remove or comment out the event listener if Formspree is used this way.
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default browser submission
 
-        // If you still wanted to do something *after* Formspree processes,
-        // you'd listen for Formspree's 'submit' event or a success redirect.
-        // For simplicity with direct action, this listener can be removed.
-        // However, keeping it commented out for clarity.
+            const formData = new FormData(contactForm); // Get form data
+            const formspreeEndpoint = "https://formspree.io/f/mgvypqgw"; // Your specific Formspree ID
 
-        /*
-        contactForm.addEventListener('submit', (e) => {
-            // e.preventDefault(); // Commented out to allow Formspree's default submission
+            try {
+                const response = await fetch(formspreeEndpoint, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json' // Crucial for Formspree's JSON response
+                    }
+                });
 
-            // These console.logs and alerts are no longer needed
-            // as Formspree will handle sending the data and
-            // typically redirects or shows its own success message.
-
-            // const name = contactForm.querySelector('#name').value;
-            // const email = contactForm.querySelector('#email').value;
-            // const company = contactForm.querySelector('#company').value;
-            // const phone = contactForm.querySelector('#phone_contact').value;
-            // const message = contactForm.querySelector('#message').value;
-
-            // console.log('Consultation Request Submitted (via Formspree):');
-            // console.log(`Name: ${name}`);
-            // console.log(`Email: ${email}`);
-            // console.log(`Company: ${company}`);
-            // console.log(`Phone (Optional): ${phone}`);
-            // console.log(`Needs: ${message}`);
-
-            // alert('Thank you for your consultation request! We will contact you shortly to schedule your personalized AI strategy session.');
-            // contactForm.reset(); // Formspree usually handles reset or redirect
+                if (response.ok) { // Check if the request was successful
+                    alert('Thank you for your consultation request! We will contact you shortly to schedule your personalized AI strategy session.');
+                    contactForm.reset(); // Clear the form fields
+                } else {
+                    const data = await response.json();
+                    if (data.errors) {
+                        alert(`Error submitting form: ${data.errors.map(error => error.message).join(', ')}`);
+                    } else {
+                        alert('There was an error sending your message. Please try again or contact us directly.');
+                    }
+                }
+            } catch (error) {
+                console.error('Network or fetch error:', error);
+                alert('There was a technical issue connecting to the server. Please try again later.');
+            }
         });
-        */
     }
 });
 
@@ -88,3 +84,5 @@ styleSheet.innerText = `
         transform: translateX(0px);
     }
 }
+`;
+document.head.appendChild(styleSheet);
